@@ -48,7 +48,7 @@ def write():
             value = txt % (num+1, col)
             row.write(index, value)
 
-    book.save("text.xls")
+    book.save(readfile)
 
 def read_write(readpath, writepath):
     
