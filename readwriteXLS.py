@@ -52,7 +52,7 @@ def write():
 
 def read_write(readpath, writepath):
     
-    book = xlrd.open_workbook(readpath);
+    book = xlrd.open_workbook(readpath)
     r_sheet = book.sheet_by_index(0)
     wb = copy(book)
     w_sheet = wb.get_sheet(0)
