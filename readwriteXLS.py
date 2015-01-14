@@ -14,7 +14,7 @@ import xlrd
 sys.path.append('/home/logic.lo/.local/lib/python2.7/site-packages')
 from xlutils.copy import copy 
 
-readfile = 'adj-2.xls'
+readfile = 'adj-1.xls'
 #readfile = '/Users/logic/personal/GRE/AnkiStuff/adj-2.xls'
 
 writefile = 'output2.xls'
@@ -84,23 +84,43 @@ def read_write(readpath, writepath):
 		# use beautiful soup to accept the return HTML
 		soup = BeautifulSoup(req_str)
 
+		# grep KK pronounce
 		for elem in soup.find_all('span', class_='proun_value'):
 			aPronounce.append(elem.text)
-		print len(aPronounce) 
-		print aPronounce[0]
+
+		if len(aPronounce) == 0:
+			aPronounce.append('[]')
+
 		w_sheet.write(row, fillin_col, aPronounce[0])
 
-		string_row = r_sheet.cell(row, 0).value + '%' +  r_sheet.cell(row, 1).value.replace('\n','') + '%' + aPronounce[0] + '\t' + r_sheet.cell(row, 2).value.replace('\n','') + '\n'
-		#string_row = r_sheet.cell(row, 1).value + 'sdf' + r_sheet.cell(row,2).value
+		string_row  = r_sheet.cell(row, 0).value    
+		string_row1 = r_sheet.cell(row, 1).value.replace('\n','')   
+		string_row2 = r_sheet.cell(row, 2).value.replace('\n','') 
+		string_row3 = aPronounce[0]
+
+		string_row = string_row + '%' + string_row3 + '<br>' + string_row2 + '<br><br>' + string_row1 + '\n'
 		string_row = string_row.encode('utf-8')
 		purefile.write(string_row)
-	wb.save(writepath)
 
+	wb.save(writepath)
 	purefile.close()
 
 
 
 if __name__ == '__main__':
-    #read()
-	#write()
-	read_write(readfile, writefile)
+	select = raw_input(u'(1)read (2)write (3)read&write, choose:')
+	if select == '1':
+		readfile = raw_input(u'Input file ?')
+		read()
+	elif select == '2':
+		writefile = raw_input(u'Output file ?')
+		write()
+	elif select == '3':
+		#readfile = raw_input(u'Input file ?')
+		#writefile = raw_input(u'Output file ?')
+		read_write(readfile, writefile)
+	else:
+		print 'Bye!'
+
+
+
